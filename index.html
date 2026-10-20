@@ -150,6 +150,39 @@
     .bar{width:40px}.brand small{display:none}
     figure{margin-left:-5px;margin-right:-5px}figure .art{border-radius:18px}figcaption{padding-left:6px;padding-right:6px}
   }
+
+  /* ---- Quiz box: separate dark-grey area ---- */
+  .quizbox{margin:34px 0 0;padding:18px 16px 16px;border-radius:28px;
+    background:linear-gradient(180deg,#202125,#1b1c1f);border:1px solid #2c2d31;
+    box-shadow:0 22px 44px -14px rgba(4,12,24,.7),0 4px 12px -4px rgba(4,12,24,.45)}
+  .quizbox .quizhead{margin:0 4px 4px;padding:0 0 14px;border-radius:0;background:none;box-shadow:none;
+    border-bottom:1px solid #2c2d31;color:#ececee}
+  .quizbox .quizhead h2{font-size:20px;font-weight:650;gap:11px}
+  .quizbox .quizhead h2::before{width:12px;height:12px;background:var(--teal2);box-shadow:0 0 0 5px rgba(42,163,184,.18)}
+  .quizbox .quizhead span{color:#8b8c93}
+  .quizbox .q{background:#26272b;border:1px solid #303136;border-radius:22px;padding:18px 16px;margin:14px 0 0;box-shadow:none}
+  .quizbox .q .qn{color:#8b8c93}
+  .quizbox .q .qt{color:#ececee}
+  .quizbox .opt{background:#2e2f34;border:1px solid #3a3b41;color:#e4e4e7;border-radius:99px}
+  .quizbox .opt .k{background:#3a3b41;color:#c4c5cb}
+  .quizbox .opt:hover:not([disabled]){background:#34353a;border-color:#6a6b72}
+  .quizbox .opt:hover:not([disabled]) .k{background:#55565d;color:#fff}
+  .quizbox .opt.right{background:rgba(63,185,80,.15);border-color:#3fb950}
+  .quizbox .opt.right .k{background:#3fb950;color:#06200c}
+  .quizbox .opt.wrong{background:rgba(248,81,73,.14);border-color:#f85149}
+  .quizbox .opt.wrong .k{background:#f85149;color:#2d0705}
+  .quizbox .opt.dim{opacity:.4}
+  .quizbox .fb{border-radius:16px}
+  .quizbox .fb.good{background:rgba(63,185,80,.12);color:#c9ecd0;box-shadow:inset 3px 0 0 #3fb950}
+  .quizbox .fb.good b{color:#3fb950}
+  .quizbox .fb.bad{background:rgba(248,81,73,.11);color:#f5cfcc;box-shadow:inset 3px 0 0 #f85149}
+  .quizbox .fb.bad b{color:#f85149}
+  .quizbox .score{margin:14px 0 0;border-radius:22px}
+  @media (max-width:600px){
+    .quizbox{padding:16px 10px 10px;border-radius:24px}
+    .quizbox .q{padding:16px 13px;border-radius:20px}
+    .quizbox .score{border-radius:20px}
+  }
 </style>
 </head>
 <body>
@@ -454,6 +487,7 @@
     </ul>
   </section>
 
+  <section class="quizbox">
   <div class="quizhead"><h2>Quiz</h2><span>Tap an answer</span></div>
   <div id="quiz"></div>
   <div class="score" id="score">
@@ -462,6 +496,7 @@
     <p id="scoreMsg"></p>
     <button class="btn" id="retry">Retake quiz</button>
   </div>
+  </section>
 
   <footer>Part 107 Trainer · Lesson 1 of Rules · Oct 19, 2026</footer>
 </div>
