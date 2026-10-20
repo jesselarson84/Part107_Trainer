@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dfe5ef">
+<title>Part 107 Trainer · Pilot Duties &amp; Reporting</title>
+<style>
+  :root{
+    --deep:#091a2f; --navy:#0e2340; --navy2:#132d4e; --navy3:#1a3a5f; --line:rgba(160,200,230,.12); --line2:rgba(160,200,230,.2);
+    --text:#eaf1f8; --dim:#b3c4d6; --muted:#7f96ad; --ink:#11233b;
+    --teal:#0a7f96; --teal2:#2aa3b8; --teal3:#72d4e3; --tealbg:rgba(42,163,184,.14); --tealline:rgba(42,163,184,.45);
+    --orange:#ff7a2f; --coral:#f2667a; --lav:#c98bd8;
+    --warm:linear-gradient(135deg,#ff8b3d 0%,#ff7a2f 38%,#f2667a 78%,#c98bd8 112%);
+    --green:#3fd0a0; --greenbg:rgba(63,208,160,.13); --greenline:rgba(63,208,160,.5);
+    --red:#ff6b81; --redbg:rgba(255,107,129,.13); --redline:rgba(255,107,129,.5);
+    --shadow:0 18px 40px -12px rgba(6,20,38,.55),0 4px 12px -4px rgba(6,20,38,.35);
+  }
+  *{box-sizing:border-box}
+  html{background:#0f2a44}
+  body{margin:0;color:var(--text);min-height:100vh;
+    background:radial-gradient(700px 500px at 90% 0,rgba(255,255,255,.35),transparent 70%),
+      linear-gradient(176deg,#dfe5ef 0,#c3cedb 200px,#8ea2b8 480px,#56708d 820px,#26476a 1250px,#163556 1800px,#0f2a44 2600px) no-repeat;
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 18px 56px}
+  b,strong{color:var(--text);font-weight:650}
+  /* Frosted app bar */
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 10px 10px 12px;background:rgba(239,243,250,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 14px 30px -14px rgba(16,40,70,.45);color:var(--ink)}
+  .brand{display:flex;align-items:center;gap:11px;min-width:0}
+  .logo{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:linear-gradient(160deg,#16365a,#0b1d34);box-shadow:0 6px 14px -6px rgba(9,26,47,.7)}
+  .brand h1{font-size:16px;font-weight:650;margin:0;line-height:1.2;color:var(--ink);letter-spacing:-.1px}
+  .brand small{display:block;color:#5d7088;font-size:12px;line-height:1.3}
+  .progress{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:12.5px;font-weight:600;color:#fff;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);padding:7px 12px 7px 8px;border-radius:99px;box-shadow:0 6px 14px -6px rgba(8,119,141,.8)}
+  .progress::before{content:"";width:16px;height:16px;border-radius:50%;background:#fff;flex:none}
+  .bar{width:64px;height:5px;background:rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:#fff;transition:width .35s ease}
+  /* Hero: warm gradient card with stacked navy card behind */
+  .hero{position:relative;margin:26px 8px 30px 0;color:#fff}
+  .hero::before{content:"";position:absolute;inset:14px -8px -12px 10px;border-radius:30px;
+    background:linear-gradient(160deg,#16365a,#0a1c33);box-shadow:var(--shadow)}
+  .hero .in{position:relative;padding:26px 24px 22px;border-radius:28px;background:var(--warm);overflow:hidden;
+    box-shadow:0 20px 40px -18px rgba(242,102,122,.7)}
+  .hero .in::after{content:"";position:absolute;right:-50px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.28),transparent 65%);pointer-events:none}
+  .eyebrow{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--teal3)}
+  .hero .eyebrow{color:rgba(255,255,255,.85)}
+  .hero h2{font-size:30px;font-weight:650;line-height:1.15;margin:8px 0 8px;letter-spacing:-.6px;color:#fff}
+  .hero p{color:rgba(255,255,255,.9);margin:6px 0 0;max-width:540px;font-weight:400}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{font-size:12.5px;font-weight:600;color:#fff;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:99px}
+  .chip.a{background:#fff;color:#e2603a}
+  /* Navy section cards */
+  .sec{background:linear-gradient(165deg,var(--navy2),var(--navy) 55%,#0c1f39);border:1px solid var(--line);
+    border-radius:28px;padding:22px 22px;margin:16px 0;box-shadow:var(--shadow)}
+  .sec h3{margin:0 0 12px;font-size:19px;font-weight:600;display:flex;align-items:center;gap:12px;letter-spacing:-.2px}
+  .ico{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);color:#fff;box-shadow:0 6px 14px -6px rgba(8,119,141,.9)}
+  .ico svg{width:18px;height:18px}
+  .num{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:1px;font-variant-numeric:tabular-nums;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);padding:2px 10px;border-radius:99px}
+  .sec p{margin:7px 0;color:var(--dim)}
+  .sec ul{margin:6px 0 0;padding:0;list-style:none;color:var(--dim)}
+  .sec li{position:relative;margin:7px 0;padding-left:22px}
+  .sec li::before{content:"";position:absolute;left:3px;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--teal2)}
+  .sec li.ok::before{background:var(--green)}
+  .sec li.no::before{background:var(--red)}
+  .ok-t{color:var(--green);font-weight:700}.no-t{color:var(--red);font-weight:700}
+  .pill{display:inline-block;font-weight:650;font-size:14px;line-height:1.55;color:#fff;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);padding:0 10px;border-radius:99px;margin:0 1px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .pill.o{background:var(--tealbg);color:var(--teal3);box-shadow:inset 0 0 0 1px var(--tealline)}
+  .pill.w{background:var(--warm)}
+  .trap{margin-top:16px;padding:12px 16px;border-radius:20px;background:linear-gradient(180deg,#f1f4fa,#dfe6f0);
+    color:#2a3e57;font-size:14.5px;box-shadow:0 12px 24px -14px rgba(0,0,0,.6)}
+  .trap b{color:var(--ink)}
+  .trap .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;
+    color:#fff;background:var(--warm);padding:2px 9px;border-radius:99px;margin-right:7px;vertical-align:1px}
+  .memo{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0 10px;padding:16px 8px;border-radius:24px;
+    background:var(--warm);box-shadow:0 16px 30px -16px rgba(242,102,122,.8)}
+  .memo div{text-align:center;padding:2px 6px}
+  .memo div+div{border-left:1px solid rgba(255,255,255,.28)}
+  .memo b{display:block;font-size:25px;font-weight:700;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+  .memo span{display:block;font-size:12.5px;line-height:1.35;color:rgba(255,255,255,.88);margin-top:3px}
+  figure{margin:18px 0 4px}
+  figure .art{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#0b1d33;max-width:500px;margin:0 auto;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  figure svg{width:100%;height:auto;display:block}
+  figure svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  figcaption{font-size:13px;line-height:1.5;color:var(--muted);padding:10px 4px 0;max-width:500px;margin:0 auto}
+  figcaption b{color:var(--dim)}
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .tl div{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:20px;padding:12px 14px;font-size:14px;line-height:1.45;color:var(--dim)}
+  .tl b{display:flex;align-items:center;gap:8px;color:var(--text);font-size:14.5px;margin-bottom:4px}
+  .tl i{font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+  .tl .d i{background:linear-gradient(135deg,#ff9a4d,#ff7a2f);color:#fff}
+  .tl .t i{background:linear-gradient(135deg,#f2667a,#c98bd8);color:#fff}
+  .tl .n i{background:linear-gradient(160deg,#1f4a74,#10284a);color:#dfe9f3;box-shadow:inset 0 0 0 1px var(--line2)}
+  /* Quiz */
+  .quizhead{display:flex;justify-content:space-between;align-items:center;margin:34px 0 8px;padding:8px 18px 8px 8px;
+    border-radius:99px;background:linear-gradient(180deg,#0d8aa2,#08778d);box-shadow:0 12px 24px -12px rgba(8,90,110,.9);color:#fff}
+  .quizhead h2{margin:0;font-size:17px;font-weight:650;display:flex;align-items:center;gap:10px}
+  .quizhead h2::before{content:"";width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  .quizhead span{color:rgba(255,255,255,.85);font-size:13px;font-weight:500}
+  .q{background:linear-gradient(165deg,var(--navy2),var(--navy) 60%);border:1px solid var(--line);border-radius:28px;padding:20px 20px;margin:14px 0;box-shadow:var(--shadow)}
+  .q .qn{font-size:11.5px;font-weight:700;color:var(--teal3);text-transform:uppercase;letter-spacing:1.3px}
+  .q .qt{font-weight:600;margin:5px 0 14px;font-size:16.5px;line-height:1.45;color:var(--text)}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+    background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--line);border-radius:99px;
+    padding:9px 18px 9px 9px;margin:9px 0;font:inherit;line-height:1.4;transition:background .15s,border-color .15s,transform .1s;
+    -webkit-tap-highlight-color:transparent}
+  .opt:hover:not([disabled]){border-color:var(--tealline);background:rgba(42,163,184,.1)}
+  .opt:active:not([disabled]){transform:scale(.99)}
+  .opt .k{width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.08);font-weight:700;font-size:13px;color:var(--dim);transition:all .15s}
+  .opt:hover:not([disabled]) .k{background:var(--teal);color:#fff}
+  .opt[disabled]{cursor:default}
+  .opt.right{background:var(--greenbg);border-color:var(--greenline)}
+  .opt.right .k{background:var(--green);color:#06291d}
+  .opt.wrong{background:var(--redbg);border-color:var(--redline)}
+  .opt.wrong .k{background:var(--red);color:#33070f}
+  .opt.dim{opacity:.42}
+  .fb{display:none;margin-top:12px;padding:11px 15px;border-radius:20px;font-size:14.5px;line-height:1.5}
+  .fb.show{display:block}
+  .fb.good{background:var(--greenbg);color:#cdeee2}
+  .fb.good b{color:var(--green)}
+  .fb.bad{background:var(--redbg);color:#f6d3d9}
+  .fb.bad b{color:var(--red)}
+  .score{display:none;position:relative;overflow:hidden;text-align:center;margin:20px 0;padding:28px 20px;border-radius:30px;
+    background:var(--warm);box-shadow:0 22px 44px -18px rgba(242,102,122,.75);color:#fff}
+  .score::before{content:"";position:absolute;left:50%;top:-90px;width:280px;height:200px;transform:translateX(-50%);
+    background:radial-gradient(ellipse,rgba(255,255,255,.3),transparent 65%);pointer-events:none}
+  .score.show{display:block}
+  .score .eyebrow{position:relative;color:rgba(255,255,255,.88)}
+  .score .big{position:relative;font-size:52px;font-weight:700;line-height:1.1;margin-top:4px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+  .score p{position:relative;color:rgba(255,255,255,.92);margin:8px 0 18px}
+  .btn{position:relative;font:inherit;cursor:pointer;color:#fff;border:0;border-radius:99px;
+    background:linear-gradient(160deg,#16365a,#0a1c33);padding:11px 24px;font-weight:650;box-shadow:0 10px 20px -10px rgba(6,20,38,.8)}
+  .btn:hover{filter:brightness(1.15)}
+  footer{text-align:center;color:rgba(223,233,243,.7);font-size:12.5px;margin-top:36px}
+  @media (max-width:600px){
+    .wrap{padding:14px 12px 40px}
+    .hero{margin:20px 8px 26px 0}.hero .in{padding:22px 18px 18px;border-radius:24px}.hero::before{border-radius:26px}.hero h2{font-size:26px}
+    .sec,.q{padding:18px 15px;border-radius:24px}
+    .tl{grid-template-columns:1fr}
+    .memo b{font-size:21px}.memo span{font-size:11.5px}
+    .bar{width:40px}.brand small{display:none}
+    figure{margin-left:-5px;margin-right:-5px}figure .art{border-radius:18px}figcaption{padding-left:6px;padding-right:6px}
+  }
+
+  /* ---- Quiz box: separate dark-grey area ---- */
+  .quizbox{margin:34px 0 0;padding:18px 16px 16px;border-radius:28px;
+    background:linear-gradient(180deg,#202125,#1b1c1f);border:1px solid #2c2d31;
+    box-shadow:0 22px 44px -14px rgba(4,12,24,.7),0 4px 12px -4px rgba(4,12,24,.45)}
+  .quizbox .quizhead{margin:0 4px 4px;padding:0 0 14px;border-radius:0;background:none;box-shadow:none;
+    border-bottom:1px solid #2c2d31;color:#ececee}
+  .quizbox .quizhead h2{font-size:20px;font-weight:650;gap:11px}
+  .quizbox .quizhead h2::before{width:12px;height:12px;background:var(--teal2);box-shadow:0 0 0 5px rgba(42,163,184,.18)}
+  .quizbox .quizhead span{color:#8b8c93}
+  .quizbox .q{background:#26272b;border:1px solid #303136;border-radius:22px;padding:18px 16px;margin:14px 0 0;box-shadow:none}
+  .quizbox .q .qn{color:#8b8c93}
+  .quizbox .q .qt{color:#ececee}
+  .quizbox .opt{background:#2e2f34;border:1px solid #3a3b41;color:#e4e4e7;border-radius:99px}
+  .quizbox .opt .k{background:#3a3b41;color:#c4c5cb}
+  .quizbox .opt:hover:not([disabled]){background:#34353a;border-color:#6a6b72}
+  .quizbox .opt:hover:not([disabled]) .k{background:#55565d;color:#fff}
+  .quizbox .opt.right{background:rgba(63,185,80,.15);border-color:#3fb950}
+  .quizbox .opt.right .k{background:#3fb950;color:#06200c}
+  .quizbox .opt.wrong{background:rgba(248,81,73,.14);border-color:#f85149}
+  .quizbox .opt.wrong .k{background:#f85149;color:#2d0705}
+  .quizbox .opt.dim{opacity:.4}
+  .quizbox .fb{border-radius:16px}
+  .quizbox .fb.good{background:rgba(63,185,80,.12);color:#c9ecd0;box-shadow:inset 3px 0 0 #3fb950}
+  .quizbox .fb.good b{color:#3fb950}
+  .quizbox .fb.bad{background:rgba(248,81,73,.11);color:#f5cfcc;box-shadow:inset 3px 0 0 #f85149}
+  .quizbox .fb.bad b{color:#f85149}
+  .quizbox .score{margin:14px 0 0;border-radius:22px}
+  @media (max-width:600px){
+    .quizbox{padding:16px 10px 10px;border-radius:24px}
+    .quizbox .q{padding:16px 13px;border-radius:20px}
+    .quizbox .score{border-radius:20px}
+  }
+  .back{display:inline-flex;align-items:center;gap:7px;margin:16px 0 0 4px;padding:6px 14px 6px 10px;border-radius:99px;
+    font-size:13px;font-weight:650;color:#11233b;text-decoration:none;background:rgba(239,243,250,.75);
+    border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 18px -12px rgba(16,40,70,.5)}
+  .back:hover{background:#fff}
+  .brand a{color:inherit;text-decoration:none}
+  footer a{color:inherit}
+</style>
+</head>
+<body>
+<!-- Shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="dBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b9c8d8"/></linearGradient>
+    <linearGradient id="warmG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8b3d"/><stop offset=".55" stop-color="#ff7a2f"/><stop offset="1" stop-color="#f2667a"/></linearGradient>
+    <linearGradient id="dRotor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d9d9de" stop-opacity="0"/><stop offset=".5" stop-color="#e6e6ea" stop-opacity=".75"/><stop offset="1" stop-color="#d9d9de" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="drone" viewBox="-32 -14 64 28" overflow="visible">
+      <ellipse cx="-21" cy="-9" rx="10.5" ry="2.1" fill="url(#dRotor)"/>
+      <ellipse cx="21" cy="-9" rx="10.5" ry="2.1" fill="url(#dRotor)"/>
+      <path d="M-8,-1 L-21,-5 M8,-1 L21,-5" stroke="#d3deea" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+      <rect x="-23.2" y="-8.6" width="4.4" height="5" rx="1.6" fill="#5f7894"/>
+      <rect x="18.8" y="-8.6" width="4.4" height="5" rx="1.6" fill="#5f7894"/>
+      <path d="M-6,4 L-9.5,10.5 M6,4 L9.5,10.5" stroke="#8aa0b8" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="-10" y="-6.5" width="20" height="11" rx="5" fill="url(#dBody)"/>
+      <rect x="-6" y="-4.3" width="12" height="2" rx="1" fill="#ffffff" opacity=".55"/>
+      <circle cx="0" cy="6.6" r="3.4" fill="#0e2340" stroke="#8aa0b8" stroke-width="1"/>
+      <circle cx="0" cy="6.6" r="1.3" fill="#ff7a2f"/>
+      <circle cx="-21" cy="-3.2" r="1.2" fill="#ff6b81"/>
+      <circle cx="21" cy="-3.2" r="1.2" fill="#3fd0a0"/>
+    </symbol>
+    <radialGradient id="glowA"><stop offset="0" stop-color="#72d4e3" stop-opacity=".3"/><stop offset="1" stop-color="#72d4e3" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowC"><stop offset="0" stop-color="#ff7a2f" stop-opacity=".75"/><stop offset="1" stop-color="#ff7a2f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d4266"/><stop offset=".55" stop-color="#11294a"/><stop offset="1" stop-color="#0b1d36"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2038"/><stop offset="1" stop-color="#081628"/></linearGradient>
+    <linearGradient id="zone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa3b8" stop-opacity=".26"/><stop offset="1" stop-color="#2aa3b8" stop-opacity=".05"/></linearGradient>
+    <linearGradient id="tower" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d6e4"/><stop offset="1" stop-color="#7f96ad"/></linearGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f6fb"/><stop offset="1" stop-color="#b6c5d6"/></linearGradient>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <div class="appbar">
+    <div class="brand">
+      <div class="logo"><svg width="32" height="14" viewBox="0 0 32 14"><use href="#drone" width="32" height="14"/></svg></div>
+      <div><a href="index.html"><h1>Part 107 Trainer</h1></a><small>Remote Pilot Knowledge Test prep</small></div>
+    </div>
+    <div class="progress"><span id="progTxt">Quiz 0/3</span><div class="bar"><i id="progBar"></i></div></div>
+  </div>
+
+  <a class="back" href="index.html">&#8249; All lessons</a>
+
+  <div class="hero"><div class="in">
+    <div class="eyebrow">Day 2 · Rules &amp; Regulations</div>
+    <h2>Pilot Duties &amp; Reporting</h2>
+    <p>Who's in charge of a flight, what you must check first, when you're grounded, and when the FAA needs to hear about a mishap.</p>
+    <div class="meta">
+      <span class="chip a">Tue, Oct 20</span><span class="chip">~5 min read</span><span class="chip">3 quiz questions</span>
+    </div>
+  </div></div>
+
+  <!-- 01 Remote PIC -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.5" r="3.5"/><path d="M5 20.5c.8-3.8 3.6-6 7-6s6.2 2.2 7 6"/></svg></span>Remote pilot in command<span class="num">01</span></h3>
+    <p>Every flight has one <b>remote pilot in command (RPIC)</b>, named before or during the flight.</p>
+    <p><b>Final authority:</b> the RPIC is directly responsible for the flight and has the last word on it. Not the drone's owner, not the client.</p>
+    <p><b>Letting someone else fly:</b> a person without a certificate may work the controls only under the RPIC's <b>direct supervision</b>, and only if the RPIC can <b>immediately take control</b>.</p>
+    <div class="trap"><span class="tag">Test trap</span>Answers that hand final authority to the <b>owner</b>, the <b>client</b>, or the person on the sticks. It's always the <b>RPIC</b>.</div>
+  </section>
+
+  <!-- 02 Preflight -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1z"/><path d="M8 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2"/><path d="m9 13 2 2 4-4"/></svg></span>Before every flight<span class="num">02</span></h3>
+    <p>The RPIC must <b>assess the operating environment</b>, looking at risks to people and property on the ground and in the air.</p>
+    <figure>
+      <div class="art">
+      <svg viewBox="0 0 360 286" role="img" aria-label="Preflight assessment: local weather, local airspace and flight restrictions, people and property on the surface, other ground hazards. Then brief the crew, check the control link, confirm enough power, and secure any payload.">
+        <rect width="360" height="286" fill="url(#sky)"/>
+        <text x="180" y="26" fill="#9be3ee" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.4">ASSESS THE ENVIRONMENT</text>
+        <!-- 4 tiles -->
+        <g>
+          <rect x="16" y="40" width="156" height="72" rx="16" fill="#0d2440" stroke="#2aa3b8" stroke-opacity=".7" stroke-width="1.2"/>
+          <path d="M34,74 h22 a7,7 0 0 0 1,-13.9 a10,10 0 0 0 -19,-2 a7.5,7.5 0 0 0 -4,15.9z" fill="url(#cloud)"/>
+          <text x="70" y="70" fill="#eaf1f8" font-size="13" font-weight="700">Weather</text>
+          <text x="70" y="88" fill="#8aa3bc" font-size="11.5">local conditions</text>
+
+          <rect x="188" y="40" width="156" height="72" rx="16" fill="#0d2440" stroke="#2aa3b8" stroke-opacity=".7" stroke-width="1.2"/>
+          <circle cx="216" cy="70" r="13" fill="none" stroke="#72d4e3" stroke-width="1.6" stroke-dasharray="4 3"/>
+          <circle cx="216" cy="70" r="4" fill="#72d4e3"/>
+          <text x="240" y="70" fill="#eaf1f8" font-size="13" font-weight="700">Airspace</text>
+          <text x="240" y="88" fill="#8aa3bc" font-size="11.5">+ restrictions</text>
+
+          <rect x="16" y="124" width="156" height="72" rx="16" fill="#0d2440" stroke="#2aa3b8" stroke-opacity=".7" stroke-width="1.2"/>
+          <g fill="#e3ecf5"><circle cx="38" cy="148" r="5"/><path d="M31,174 v-12 q0,-6 7,-6 q7,0 7,6 v12z"/></g>
+          <path d="M50,174 v-14 l9,-7 l9,7 v14z" fill="#7f96ad"/>
+          <text x="80" y="154" fill="#eaf1f8" font-size="13" font-weight="700">People &amp;</text>
+          <text x="80" y="170" fill="#eaf1f8" font-size="13" font-weight="700">property</text>
+          <text x="80" y="186" fill="#8aa3bc" font-size="11.5">on the surface</text>
+
+          <rect x="188" y="124" width="156" height="72" rx="16" fill="#0d2440" stroke="#2aa3b8" stroke-opacity=".7" stroke-width="1.2"/>
+          <path d="M216,146 l13,24 h-26z" fill="url(#warmG)"/>
+          <rect x="215" y="154" width="2.4" height="8" rx="1" fill="#fff"/><circle cx="216.2" cy="165.5" r="1.4" fill="#fff"/>
+          <text x="240" y="160" fill="#eaf1f8" font-size="13" font-weight="700">Ground</text>
+          <text x="240" y="178" fill="#8aa3bc" font-size="11.5">hazards</text>
+        </g>
+        <!-- then -->
+        <text x="180" y="222" fill="#9be3ee" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.4">THEN MAKE SURE</text>
+        <g font-size="11" font-weight="700" text-anchor="middle">
+          <rect x="12" y="234" width="82" height="30" rx="15" fill="url(#warmG)"/><text x="53" y="253" fill="#fff">Crew briefed</text>
+          <rect x="98" y="234" width="82" height="30" rx="15" fill="url(#warmG)"/><text x="139" y="253" fill="#fff">Link works</text>
+          <rect x="184" y="234" width="82" height="30" rx="15" fill="url(#warmG)"/><text x="225" y="253" fill="#fff">Enough power</text>
+          <rect x="270" y="234" width="82" height="30" rx="15" fill="url(#warmG)"/><text x="311" y="253" fill="#fff">Load secure</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption>Four things to assess, then four things to confirm. <b>Crew briefed</b> means everyone involved knows the conditions, emergency procedures, roles, and hazards.</figcaption>
+    </figure>
+    <p><b>Condition for safe operation:</b> check the drone before <b>each</b> flight. If it stops being safe mid-flight, you can't keep flying it.</p>
+  </section>
+
+  <!-- 03 Alcohol & drugs -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l-1.2 7.5a3.9 3.9 0 0 1-7.6 0z"/><path d="M12 14v7M8.5 21h7"/><path d="m4 4 16 16"/></svg></span>Alcohol &amp; drugs<span class="num">03</span></h3>
+    <p>Part 107 borrows the manned-aircraft rule. You can't fly as RPIC, work the controls, or act as a visual observer:</p>
+    <div class="memo">
+      <div><b>8 hrs</b><span>after any alcoholic drink</span></div>
+      <div><b>0.04</b><span>alcohol concentration or higher</span></div>
+      <div><b>Impaired</b><span>by alcohol or any drug</span></div>
+    </div>
+    <p>All three apply at once. Waiting 8 hours doesn't help if you're still at <span class="pill o">0.04</span> or still feel it.</p>
+    <p><b>Medical condition:</b> you also can't fly if you know (or should know) a physical or mental condition would get in the way of flying safely.</p>
+  </section>
+
+  <!-- 04 Reporting -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5"/><circle cx="12" cy="17.3" r=".9" fill="currentColor"/></svg></span>When to report to the FAA<span class="num">04</span></h3>
+    <p>The RPIC must report to the FAA within <span class="pill">10 calendar days</span> if a flight causes either of these:</p>
+    <figure>
+      <div class="art">
+      <svg viewBox="0 0 360 292" role="img" aria-label="Reporting decision: serious injury or loss of consciousness means report within 10 days. Damage to property other than the drone over 500 dollars means report within 10 days. Otherwise no FAA report is required.">
+        <rect width="360" height="292" fill="url(#sky)"/>
+        <!-- Q1 -->
+        <rect x="16" y="20" width="208" height="64" rx="18" fill="#0d2440" stroke="#2aa3b8" stroke-width="1.2"/>
+        <text x="32" y="46" fill="#eaf1f8" font-size="13" font-weight="700">Serious injury, or anyone</text>
+        <text x="32" y="64" fill="#eaf1f8" font-size="13" font-weight="700">lost consciousness?</text>
+        <!-- yes 1 -->
+        <line x1="224" y1="52" x2="248" y2="52" stroke="#ff9a5c" stroke-width="1.8"/>
+        <path d="M244,47 L251,52 L244,57" fill="none" stroke="#ff9a5c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="236" y="44" fill="#ff9a5c" font-size="10.5" font-weight="800" text-anchor="middle">YES</text>
+        <rect x="254" y="32" width="92" height="40" rx="20" fill="url(#warmG)"/>
+        <text x="300" y="49" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">Report</text>
+        <text x="300" y="64" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">within 10 days</text>
+        <!-- no 1 -->
+        <line x1="120" y1="84" x2="120" y2="110" stroke="#72d4e3" stroke-width="1.6"/>
+        <path d="M115,106 L120,113 L125,106" fill="none" stroke="#72d4e3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="132" y="102" fill="#72d4e3" font-size="10.5" font-weight="800">NO</text>
+        <!-- Q2 -->
+        <rect x="16" y="116" width="208" height="82" rx="18" fill="#0d2440" stroke="#2aa3b8" stroke-width="1.2"/>
+        <text x="32" y="142" fill="#eaf1f8" font-size="13" font-weight="700">Damage to other property</text>
+        <text x="32" y="160" fill="#eaf1f8" font-size="13" font-weight="700">over $500?</text>
+        <text x="32" y="181" fill="#8aa3bc" font-size="11.5">repair cost, or value if destroyed</text>
+        <!-- yes 2 -->
+        <line x1="224" y1="157" x2="248" y2="157" stroke="#ff9a5c" stroke-width="1.8"/>
+        <path d="M244,152 L251,157 L244,162" fill="none" stroke="#ff9a5c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="236" y="149" fill="#ff9a5c" font-size="10.5" font-weight="800" text-anchor="middle">YES</text>
+        <rect x="254" y="137" width="92" height="40" rx="20" fill="url(#warmG)"/>
+        <text x="300" y="154" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">Report</text>
+        <text x="300" y="169" fill="#fff" font-size="11" font-weight="600" text-anchor="middle">within 10 days</text>
+        <!-- no 2 -->
+        <line x1="120" y1="198" x2="120" y2="224" stroke="#72d4e3" stroke-width="1.6"/>
+        <path d="M115,220 L120,227 L125,220" fill="none" stroke="#72d4e3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="132" y="216" fill="#72d4e3" font-size="10.5" font-weight="800">NO</text>
+        <rect x="16" y="230" width="208" height="40" rx="20" fill="rgba(63,208,160,.13)" stroke="#3fd0a0" stroke-width="1.2"/>
+        <text x="120" y="255" fill="#3fd0a0" font-size="12.5" font-weight="800" text-anchor="middle">No FAA report required</text>
+        <!-- drone note -->
+        <use href="#drone" x="262" y="214" width="76" height="34"/>
+        <line x1="266" y1="252" x2="334" y2="218" stroke="#ff6b81" stroke-width="2" stroke-linecap="round"/>
+        <text x="300" y="272" fill="#ff8a9b" font-size="11.5" font-weight="700" text-anchor="middle">Your drone</text>
+        <text x="300" y="286" fill="#8aa3bc" font-size="11" text-anchor="middle">doesn't count</text>
+      </svg>
+      </div>
+      <figcaption>Damage to the <b>drone itself</b> never counts toward the $500. The repair cost includes <b>materials and labor</b>.</figcaption>
+    </figure>
+    <p><b>How:</b> file it online through <b>FAADroneZone</b>, or contact your local FAA Flight Standards District Office.</p>
+    <div class="trap"><span class="tag">Test trap</span>Swapped numbers like "10 days and $1,000" or "30 days and $500." It's <b>10 calendar days</b> and <b>more than $500</b>.</div>
+  </section>
+
+  <!-- 05 Show your certificate -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.6-1.6 1.6-2.4 3-2.4s2.4.8 3 2.4M14 10h4M14 13.5h3"/></svg></span>Carry it and show it<span class="num">05</span></h3>
+    <p>When you fly under Part 107, have your <b>remote pilot certificate</b> and a <b>photo ID</b> (like a driver's license) on you. Show both if any of these ask:</p>
+    <ul>
+      <li><b>The FAA</b></li>
+      <li><b>The NTSB</b> (National Transportation Safety Board)</li>
+      <li><b>The TSA</b> (Transportation Security Administration)</li>
+      <li><b>Any federal, state, or local law enforcement officer</b></li>
+    </ul>
+    <p>On request, you must also let the FAA <b>inspect or test</b> your drone and show any records the rules require you to keep.</p>
+    <div class="trap"><span class="tag">Test trap</span>"Only the FAA can ask for it." Wrong. A <b>local police officer</b> can ask too.</div>
+  </section>
+
+  <section class="quizbox">
+  <div class="quizhead"><h2>Quiz</h2><span>Tap an answer</span></div>
+  <div id="quiz"></div>
+  <div class="score" id="score">
+    <div class="eyebrow">Your score</div>
+    <div class="big" id="scoreNum">0/3</div>
+    <p id="scoreMsg"></p>
+    <button class="btn" id="retry">Retake quiz</button>
+  </div>
+  </section>
+
+  <footer><a href="index.html">All lessons</a> · Part 107 Trainer · Day 2 of Rules · Oct 20, 2026</footer>
+</div>
+
+<script>
+const LESSON_ID = "2026-10-20";
+const QUESTIONS = [
+  { q:"During a paid job, a local police officer asks to see your remote pilot certificate. What's required?",
+    opts:["Nothing. Only the FAA can ask to see it","You must show it, along with your photo ID","You must show it only if you're in controlled airspace"], a:1,
+    why:"Any federal, state, or local law enforcement officer can ask, as can the FAA, NTSB, and TSA (§107.7)." },
+  { q:"How long after drinking alcohol must you wait before acting as remote pilot in command?",
+    opts:["4 hours","12 hours","8 hours"], a:2,
+    why:"8 hours, and you also can't fly while impaired or at an alcohol concentration of 0.04 or higher (§107.27, §91.17)." },
+  { q:"Your drone clips a parked car. The repair estimate, including labor, is $650. What must you do?",
+    opts:["Report it to the FAA within 10 calendar days","Nothing, since nobody was hurt","Report it only if the drone was destroyed"], a:0,
+    why:"Damage to property other than the drone that costs more than $500 to repair must be reported within 10 calendar days (§107.9)." }
+];
+const L = ["a","b","c"];
+let answered = 0, correct = 0;
+
+function render(){
+  answered = 0; correct = 0;
+  const box = document.getElementById("quiz"); box.innerHTML = "";
+  const s = document.getElementById("score"); s.classList.remove("show","perfect");
+  QUESTIONS.forEach((item, qi) => {
+    const el = document.createElement("div"); el.className = "q";
+    el.innerHTML = `<div class="qn">Question ${qi+1} of ${QUESTIONS.length}</div><div class="qt">${item.q}</div>`;
+    const btns = item.opts.map((o, oi) => {
+      const b = document.createElement("button"); b.className = "opt";
+      b.innerHTML = `<span class="k">${L[oi]}</span><span>${o}</span>`;
+      b.onclick = () => choose(item, oi, btns, fb);
+      el.appendChild(b); return b;
+    });
+    const fb = document.createElement("div"); fb.className = "fb"; el.appendChild(fb);
+    box.appendChild(el);
+  });
+  progress();
+}
+function choose(item, oi, btns, fb){
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === item.a) b.classList.add("right");
+    else if (i === oi) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  const ok = oi === item.a;
+  if (ok) correct++;
+  answered++;
+  fb.className = "fb show " + (ok ? "good" : "bad");
+  fb.innerHTML = (ok ? "<b>Correct.</b> " : `<b>Not quite.</b> The correct answer is (${L[item.a]}). `) + item.why;
+  progress();
+  if (answered === QUESTIONS.length) finish();
+}
+function progress(){
+  document.getElementById("progTxt").textContent = `Quiz ${answered}/${QUESTIONS.length}`;
+  document.getElementById("progBar").style.width = (answered/QUESTIONS.length*100) + "%";
+}
+function finish(){
+  const s = document.getElementById("score");
+  document.getElementById("scoreNum").textContent = `${correct}/${QUESTIONS.length}`;
+  document.getElementById("scoreMsg").textContent =
+    correct === QUESTIONS.length ? "Perfect. You know your duties as remote PIC."
+    : correct >= 2 ? "Nice. Review the one you missed above."
+    : "Worth another pass through the lesson before tomorrow.";
+  s.classList.toggle("perfect", correct === QUESTIONS.length);
+  s.classList.add("show");
+  try{ const k="p107-score-"+LESSON_ID, prev=JSON.parse(localStorage.getItem(k)||"null");
+    if(!prev || correct>prev.c) localStorage.setItem(k, JSON.stringify({c:correct,t:QUESTIONS.length})); }catch(e){}
+  s.scrollIntoView({behavior:"smooth", block:"center"});
+}
+document.getElementById("retry").onclick = () => { render(); document.getElementById("quiz").scrollIntoView({behavior:"smooth"}); };
+render();
+</script>
+</body>
+</html>
