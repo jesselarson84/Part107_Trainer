@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#dfe5ef">
+<title>Part 107 Trainer · Operations Over People</title>
+<style>
+  :root{
+    --deep:#091a2f; --navy:#0e2340; --navy2:#132d4e; --navy3:#1a3a5f; --line:rgba(160,200,230,.12); --line2:rgba(160,200,230,.2);
+    --text:#eaf1f8; --dim:#b3c4d6; --muted:#7f96ad; --ink:#11233b;
+    --teal:#0a7f96; --teal2:#2aa3b8; --teal3:#72d4e3; --tealbg:rgba(42,163,184,.14); --tealline:rgba(42,163,184,.45);
+    --orange:#ff7a2f; --coral:#f2667a; --lav:#c98bd8;
+    --warm:linear-gradient(135deg,#ff8b3d 0%,#ff7a2f 38%,#f2667a 78%,#c98bd8 112%);
+    --green:#3fd0a0; --greenbg:rgba(63,208,160,.13); --greenline:rgba(63,208,160,.5);
+    --red:#ff6b81; --redbg:rgba(255,107,129,.13); --redline:rgba(255,107,129,.5);
+    --shadow:0 18px 40px -12px rgba(6,20,38,.55),0 4px 12px -4px rgba(6,20,38,.35);
+  }
+  *{box-sizing:border-box}
+  html{background:#0f2a44}
+  body{margin:0;color:var(--text);min-height:100vh;
+    background:radial-gradient(700px 500px at 90% 0,rgba(255,255,255,.35),transparent 70%),
+      linear-gradient(176deg,#dfe5ef 0,#c3cedb 200px,#8ea2b8 480px,#56708d 820px,#26476a 1250px,#163556 1800px,#0f2a44 2600px) no-repeat;
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 18px 56px}
+  b,strong{color:var(--text);font-weight:650}
+  /* Frosted app bar */
+  .appbar{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 10px 10px 12px;background:rgba(239,243,250,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 14px 30px -14px rgba(16,40,70,.45);color:var(--ink)}
+  .brand{display:flex;align-items:center;gap:11px;min-width:0}
+  .logo{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:linear-gradient(160deg,#16365a,#0b1d34);box-shadow:0 6px 14px -6px rgba(9,26,47,.7)}
+  .brand h1{font-size:16px;font-weight:650;margin:0;line-height:1.2;color:var(--ink);letter-spacing:-.1px}
+  .brand small{display:block;color:#5d7088;font-size:12px;line-height:1.3}
+  .progress{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:12.5px;font-weight:600;color:#fff;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);padding:7px 12px 7px 8px;border-radius:99px;box-shadow:0 6px 14px -6px rgba(8,119,141,.8)}
+  .progress::before{content:"";width:16px;height:16px;border-radius:50%;background:#fff;flex:none}
+  .bar{width:64px;height:5px;background:rgba(255,255,255,.28);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:#fff;transition:width .35s ease}
+  /* Hero: warm gradient card with stacked navy card behind */
+  .hero{position:relative;margin:26px 8px 30px 0;color:#fff}
+  .hero::before{content:"";position:absolute;inset:14px -8px -12px 10px;border-radius:30px;
+    background:linear-gradient(160deg,#16365a,#0a1c33);box-shadow:var(--shadow)}
+  .hero .in{position:relative;padding:26px 24px 22px;border-radius:28px;background:var(--warm);overflow:hidden;
+    box-shadow:0 20px 40px -18px rgba(242,102,122,.7)}
+  .hero .in::after{content:"";position:absolute;right:-50px;top:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.28),transparent 65%);pointer-events:none}
+  .eyebrow{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--teal3)}
+  .hero .eyebrow{color:rgba(255,255,255,.85)}
+  .hero h2{font-size:30px;font-weight:650;line-height:1.15;margin:8px 0 8px;letter-spacing:-.6px;color:#fff}
+  .hero p{color:rgba(255,255,255,.9);margin:6px 0 0;max-width:540px;font-weight:400}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{font-size:12.5px;font-weight:600;color:#fff;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:99px}
+  .chip.a{background:#fff;color:#e2603a}
+  /* Navy section cards */
+  .sec{background:linear-gradient(165deg,var(--navy2),var(--navy) 55%,#0c1f39);border:1px solid var(--line);
+    border-radius:28px;padding:22px 22px;margin:16px 0;box-shadow:var(--shadow)}
+  .sec h3{margin:0 0 12px;font-size:19px;font-weight:600;display:flex;align-items:center;gap:12px;letter-spacing:-.2px}
+  .ico{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);color:#fff;box-shadow:0 6px 14px -6px rgba(8,119,141,.9)}
+  .ico svg{width:18px;height:18px}
+  .num{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:1px;font-variant-numeric:tabular-nums;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);padding:2px 10px;border-radius:99px}
+  .sec p{margin:7px 0;color:var(--dim)}
+  .sec ul{margin:6px 0 0;padding:0;list-style:none;color:var(--dim)}
+  .sec li{position:relative;margin:7px 0;padding-left:22px}
+  .sec li::before{content:"";position:absolute;left:3px;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--teal2)}
+  .sec li.ok::before{background:var(--green)}
+  .sec li.no::before{background:var(--red)}
+  .ok-t{color:var(--green);font-weight:700}.no-t{color:var(--red);font-weight:700}
+  .pill{display:inline-block;font-weight:650;font-size:14px;line-height:1.55;color:#fff;
+    background:linear-gradient(180deg,#0d8aa2,#08778d);padding:0 10px;border-radius:99px;margin:0 1px;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .pill.o{background:var(--tealbg);color:var(--teal3);box-shadow:inset 0 0 0 1px var(--tealline)}
+  .pill.w{background:var(--warm)}
+  .trap{margin-top:16px;padding:12px 16px;border-radius:20px;background:linear-gradient(180deg,#f1f4fa,#dfe6f0);
+    color:#2a3e57;font-size:14.5px;box-shadow:0 12px 24px -14px rgba(0,0,0,.6)}
+  .trap b{color:var(--ink)}
+  .trap .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;
+    color:#fff;background:var(--warm);padding:2px 9px;border-radius:99px;margin-right:7px;vertical-align:1px}
+  .memo{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0 10px;padding:16px 8px;border-radius:24px;
+    background:var(--warm);box-shadow:0 16px 30px -16px rgba(242,102,122,.8)}
+  .memo div{text-align:center;padding:2px 6px}
+  .memo div+div{border-left:1px solid rgba(255,255,255,.28)}
+  .memo b{display:block;font-size:25px;font-weight:700;line-height:1.2;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+  .memo span{display:block;font-size:12.5px;line-height:1.35;color:rgba(255,255,255,.88);margin-top:3px}
+  figure{margin:18px 0 4px}
+  figure .art{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#0b1d33;max-width:500px;margin:0 auto;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+  figure svg{width:100%;height:auto;display:block}
+  figure svg text{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  figcaption{font-size:13px;line-height:1.5;color:var(--muted);padding:10px 4px 0;max-width:500px;margin:0 auto}
+  figcaption b{color:var(--dim)}
+  .tl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .tl div{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:20px;padding:12px 14px;font-size:14px;line-height:1.45;color:var(--dim)}
+  .tl b{display:flex;align-items:center;gap:8px;color:var(--text);font-size:14.5px;margin-bottom:4px}
+  .tl i{font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px}
+  .tl .d i{background:linear-gradient(135deg,#ff9a4d,#ff7a2f);color:#fff}
+  .tl .t i{background:linear-gradient(135deg,#f2667a,#c98bd8);color:#fff}
+  .tl .n i{background:linear-gradient(160deg,#1f4a74,#10284a);color:#dfe9f3;box-shadow:inset 0 0 0 1px var(--line2)}
+  /* Quiz */
+  .quizhead{display:flex;justify-content:space-between;align-items:center;margin:34px 0 8px;padding:8px 18px 8px 8px;
+    border-radius:99px;background:linear-gradient(180deg,#0d8aa2,#08778d);box-shadow:0 12px 24px -12px rgba(8,90,110,.9);color:#fff}
+  .quizhead h2{margin:0;font-size:17px;font-weight:650;display:flex;align-items:center;gap:10px}
+  .quizhead h2::before{content:"";width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  .quizhead span{color:rgba(255,255,255,.85);font-size:13px;font-weight:500}
+  .q{background:linear-gradient(165deg,var(--navy2),var(--navy) 60%);border:1px solid var(--line);border-radius:28px;padding:20px 20px;margin:14px 0;box-shadow:var(--shadow)}
+  .q .qn{font-size:11.5px;font-weight:700;color:var(--teal3);text-transform:uppercase;letter-spacing:1.3px}
+  .q .qt{font-weight:600;margin:5px 0 14px;font-size:16.5px;line-height:1.45;color:var(--text)}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;
+    background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--line);border-radius:99px;
+    padding:9px 18px 9px 9px;margin:9px 0;font:inherit;line-height:1.4;transition:background .15s,border-color .15s,transform .1s;
+    -webkit-tap-highlight-color:transparent}
+  .opt:hover:not([disabled]){border-color:var(--tealline);background:rgba(42,163,184,.1)}
+  .opt:active:not([disabled]){transform:scale(.99)}
+  .opt .k{width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.08);font-weight:700;font-size:13px;color:var(--dim);transition:all .15s}
+  .opt:hover:not([disabled]) .k{background:var(--teal);color:#fff}
+  .opt[disabled]{cursor:default}
+  .opt.right{background:var(--greenbg);border-color:var(--greenline)}
+  .opt.right .k{background:var(--green);color:#06291d}
+  .opt.wrong{background:var(--redbg);border-color:var(--redline)}
+  .opt.wrong .k{background:var(--red);color:#33070f}
+  .opt.dim{opacity:.42}
+  .fb{display:none;margin-top:12px;padding:11px 15px;border-radius:20px;font-size:14.5px;line-height:1.5}
+  .fb.show{display:block}
+  .fb.good{background:var(--greenbg);color:#cdeee2}
+  .fb.good b{color:var(--green)}
+  .fb.bad{background:var(--redbg);color:#f6d3d9}
+  .fb.bad b{color:var(--red)}
+  .score{display:none;position:relative;overflow:hidden;text-align:center;margin:20px 0;padding:28px 20px;border-radius:30px;
+    background:var(--warm);box-shadow:0 22px 44px -18px rgba(242,102,122,.75);color:#fff}
+  .score::before{content:"";position:absolute;left:50%;top:-90px;width:280px;height:200px;transform:translateX(-50%);
+    background:radial-gradient(ellipse,rgba(255,255,255,.3),transparent 65%);pointer-events:none}
+  .score.show{display:block}
+  .score .eyebrow{position:relative;color:rgba(255,255,255,.88)}
+  .score .big{position:relative;font-size:52px;font-weight:700;line-height:1.1;margin-top:4px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+  .score p{position:relative;color:rgba(255,255,255,.92);margin:8px 0 18px}
+  .btn{position:relative;font:inherit;cursor:pointer;color:#fff;border:0;border-radius:99px;
+    background:linear-gradient(160deg,#16365a,#0a1c33);padding:11px 24px;font-weight:650;box-shadow:0 10px 20px -10px rgba(6,20,38,.8)}
+  .btn:hover{filter:brightness(1.15)}
+  footer{text-align:center;color:rgba(223,233,243,.7);font-size:12.5px;margin-top:36px}
+  @media (max-width:600px){
+    .wrap{padding:14px 12px 40px}
+    .hero{margin:20px 8px 26px 0}.hero .in{padding:22px 18px 18px;border-radius:24px}.hero::before{border-radius:26px}.hero h2{font-size:26px}
+    .sec,.q{padding:18px 15px;border-radius:24px}
+    .tl{grid-template-columns:1fr}
+    .memo b{font-size:21px}.memo span{font-size:11.5px}
+    .bar{width:40px}.brand small{display:none}
+    figure{margin-left:-5px;margin-right:-5px}figure .art{border-radius:18px}figcaption{padding-left:6px;padding-right:6px}
+  }
+
+  /* ---- Quiz box: separate dark-grey area ---- */
+  .quizbox{margin:34px 0 0;padding:18px 16px 16px;border-radius:28px;
+    background:linear-gradient(180deg,#202125,#1b1c1f);border:1px solid #2c2d31;
+    box-shadow:0 22px 44px -14px rgba(4,12,24,.7),0 4px 12px -4px rgba(4,12,24,.45)}
+  .quizbox .quizhead{margin:0 4px 4px;padding:0 0 14px;border-radius:0;background:none;box-shadow:none;
+    border-bottom:1px solid #2c2d31;color:#ececee}
+  .quizbox .quizhead h2{font-size:20px;font-weight:650;gap:11px}
+  .quizbox .quizhead h2::before{width:12px;height:12px;background:var(--teal2);box-shadow:0 0 0 5px rgba(42,163,184,.18)}
+  .quizbox .quizhead span{color:#8b8c93}
+  .quizbox .q{background:#26272b;border:1px solid #303136;border-radius:22px;padding:18px 16px;margin:14px 0 0;box-shadow:none}
+  .quizbox .q .qn{color:#8b8c93}
+  .quizbox .q .qt{color:#ececee}
+  .quizbox .opt{background:#2e2f34;border:1px solid #3a3b41;color:#e4e4e7;border-radius:99px}
+  .quizbox .opt .k{background:#3a3b41;color:#c4c5cb}
+  .quizbox .opt:hover:not([disabled]){background:#34353a;border-color:#6a6b72}
+  .quizbox .opt:hover:not([disabled]) .k{background:#55565d;color:#fff}
+  .quizbox .opt.right{background:rgba(63,185,80,.15);border-color:#3fb950}
+  .quizbox .opt.right .k{background:#3fb950;color:#06200c}
+  .quizbox .opt.wrong{background:rgba(248,81,73,.14);border-color:#f85149}
+  .quizbox .opt.wrong .k{background:#f85149;color:#2d0705}
+  .quizbox .opt.dim{opacity:.4}
+  .quizbox .fb{border-radius:16px}
+  .quizbox .fb.good{background:rgba(63,185,80,.12);color:#c9ecd0;box-shadow:inset 3px 0 0 #3fb950}
+  .quizbox .fb.good b{color:#3fb950}
+  .quizbox .fb.bad{background:rgba(248,81,73,.11);color:#f5cfcc;box-shadow:inset 3px 0 0 #f85149}
+  .quizbox .fb.bad b{color:#f85149}
+  .quizbox .score{margin:14px 0 0;border-radius:22px}
+  @media (max-width:600px){
+    .quizbox{padding:16px 10px 10px;border-radius:24px}
+    .quizbox .q{padding:16px 13px;border-radius:20px}
+    .quizbox .score{border-radius:20px}
+  }
+  .back{display:inline-flex;align-items:center;gap:7px;margin:16px 0 0 4px;padding:6px 14px 6px 10px;border-radius:99px;
+    font-size:13px;font-weight:650;color:#11233b;text-decoration:none;background:rgba(239,243,250,.75);
+    border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 18px -12px rgba(16,40,70,.5)}
+  .back:hover{background:#fff}
+  .brand a{color:inherit;text-decoration:none}
+  footer a{color:inherit}
+  .cats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+  .cats div{background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:20px;padding:12px 14px;font-size:14px;line-height:1.45;color:var(--dim)}
+  .cats b{display:flex;align-items:center;gap:8px;color:var(--text);font-size:14.5px;margin-bottom:4px}
+  .cats i{font-style:normal;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(180deg,#0d8aa2,#08778d)}
+  .cats .c4 i{background:var(--warm)}
+  @media (max-width:600px){.cats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<!-- Shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="dBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b9c8d8"/></linearGradient>
+    <linearGradient id="warmG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff8b3d"/><stop offset=".55" stop-color="#ff7a2f"/><stop offset="1" stop-color="#f2667a"/></linearGradient>
+    <linearGradient id="dRotor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d9d9de" stop-opacity="0"/><stop offset=".5" stop-color="#e6e6ea" stop-opacity=".75"/><stop offset="1" stop-color="#d9d9de" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="drone" viewBox="-32 -14 64 28" overflow="visible">
+      <ellipse cx="-21" cy="-9" rx="10.5" ry="2.1" fill="url(#dRotor)"/>
+      <ellipse cx="21" cy="-9" rx="10.5" ry="2.1" fill="url(#dRotor)"/>
+      <path d="M-8,-1 L-21,-5 M8,-1 L21,-5" stroke="#d3deea" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+      <rect x="-23.2" y="-8.6" width="4.4" height="5" rx="1.6" fill="#5f7894"/>
+      <rect x="18.8" y="-8.6" width="4.4" height="5" rx="1.6" fill="#5f7894"/>
+      <path d="M-6,4 L-9.5,10.5 M6,4 L9.5,10.5" stroke="#8aa0b8" stroke-width="1.8" stroke-linecap="round"/>
+      <rect x="-10" y="-6.5" width="20" height="11" rx="5" fill="url(#dBody)"/>
+      <rect x="-6" y="-4.3" width="12" height="2" rx="1" fill="#ffffff" opacity=".55"/>
+      <circle cx="0" cy="6.6" r="3.4" fill="#0e2340" stroke="#8aa0b8" stroke-width="1"/>
+      <circle cx="0" cy="6.6" r="1.3" fill="#ff7a2f"/>
+      <circle cx="-21" cy="-3.2" r="1.2" fill="#ff6b81"/>
+      <circle cx="21" cy="-3.2" r="1.2" fill="#3fd0a0"/>
+    </symbol>
+    <radialGradient id="glowA"><stop offset="0" stop-color="#72d4e3" stop-opacity=".3"/><stop offset="1" stop-color="#72d4e3" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowC"><stop offset="0" stop-color="#ff7a2f" stop-opacity=".75"/><stop offset="1" stop-color="#ff7a2f" stop-opacity="0"/></radialGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d4266"/><stop offset=".55" stop-color="#11294a"/><stop offset="1" stop-color="#0b1d36"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2038"/><stop offset="1" stop-color="#081628"/></linearGradient>
+    <linearGradient id="zone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa3b8" stop-opacity=".26"/><stop offset="1" stop-color="#2aa3b8" stop-opacity=".05"/></linearGradient>
+    <linearGradient id="tower" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d6e4"/><stop offset="1" stop-color="#7f96ad"/></linearGradient>
+    <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f6fb"/><stop offset="1" stop-color="#b6c5d6"/></linearGradient>
+  </defs>
+</svg>
+
+
+<div class="wrap">
+  <div class="appbar">
+    <div class="brand">
+      <div class="logo"><svg width="32" height="14" viewBox="0 0 32 14"><use href="#drone" width="32" height="14"/></svg></div>
+      <div><a href="index.html"><h1>Part 107 Trainer</h1></a><small>Remote Pilot Knowledge Test prep</small></div>
+    </div>
+    <div class="progress"><span id="progTxt">Quiz 0/3</span><div class="bar"><i id="progBar"></i></div></div>
+  </div>
+
+  <a class="back" href="index.html">&#8249; All lessons</a>
+
+  <div class="hero"><div class="in">
+    <div class="eyebrow">Day 4 · Rules &amp; Regulations</div>
+    <h2>Operations Over People</h2>
+    <p>When you're allowed to fly over someone, the four drone categories, crowds, and flying over moving cars.</p>
+    <div class="meta">
+      <span class="chip a">Thu, Oct 22</span><span class="chip">~5 min read</span><span class="chip">3 quiz questions</span>
+    </div>
+  </div></div>
+
+  <!-- 01 Default rule -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></span>The starting rule<span class="num">01</span></h3>
+    <p><b>Default:</b> you may <b>not</b> fly over a person. There are only three ways around that:</p>
+    <ul>
+      <li class="ok">They're <b>directly participating</b> in the flight (like your visual observer).</li>
+      <li class="ok">They're under a <b>covered structure</b> or inside a <b>stationary vehicle</b> that protects them from a falling drone.</li>
+      <li class="ok">Your flight meets one of the four <b>operational categories</b> (section 02).</li>
+    </ul>
+    <figure>
+      <div class="art">
+      <svg viewBox="0 0 360 230" role="img" aria-label="A drone over three people: a crew member participating is OK, a person under a covered shelter is OK, an uninvolved bystander in the open is not OK without a category.">
+        <rect width="360" height="230" fill="url(#sky)"/>
+        <rect y="180" width="360" height="50" fill="url(#ground)"/>
+        <text x="180" y="24" fill="#9be3ee" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="1.4">WHO CAN BE UNDER THE DRONE?</text>
+        <use href="#drone" x="145" y="38" width="70" height="30"/>
+        <!-- participant -->
+        <g transform="translate(60,0)">
+          <circle cx="0" cy="138" r="8" fill="#c9d6e4"/>
+          <path d="M-12,180 v-18 a12,12 0 0 1 24,0 v18z" fill="#0d8aa2"/>
+          <rect x="-8" y="160" width="16" height="9" rx="2" fill="#0e2340" stroke="#72d4e3"/>
+          <text x="0" y="122" fill="#3fd0a0" font-size="11" font-weight="800" text-anchor="middle">OK</text>
+          <text x="0" y="200" fill="#72d4e3" font-size="10.5" font-weight="700" text-anchor="middle">Crew member</text>
+          <text x="0" y="214" fill="#8aa3bc" font-size="10" text-anchor="middle">participating</text>
+        </g>
+        <!-- shelter -->
+        <g transform="translate(180,0)">
+          <path d="M-34,120 L0,104 L34,120z" fill="url(#tower)"/>
+          <rect x="-28" y="120" width="4" height="60" fill="#7f96ad"/><rect x="24" y="120" width="4" height="60" fill="#7f96ad"/>
+          <circle cx="0" cy="146" r="8" fill="#c9d6e4"/>
+          <path d="M-12,180 v-14 a12,12 0 0 1 24,0 v14z" fill="#5f7894"/>
+          <text x="0" y="98" fill="#3fd0a0" font-size="11" font-weight="800" text-anchor="middle">OK</text>
+          <text x="0" y="200" fill="#72d4e3" font-size="10.5" font-weight="700" text-anchor="middle">Under cover</text>
+          <text x="0" y="214" fill="#8aa3bc" font-size="10" text-anchor="middle">or in a parked car</text>
+        </g>
+        <!-- bystander -->
+        <g transform="translate(300,0)">
+          <circle cx="0" cy="138" r="8" fill="#c9d6e4"/>
+          <path d="M-12,180 v-18 a12,12 0 0 1 24,0 v18z" fill="#f2667a"/>
+          <rect x="-30" y="110" width="60" height="18" rx="9" fill="rgba(255,107,129,.15)" stroke="#ff6b81" stroke-width="1"/>
+          <text x="0" y="123" fill="#ff8a9b" font-size="10.5" font-weight="800" text-anchor="middle">NOT OK*</text>
+          <text x="0" y="200" fill="#72d4e3" font-size="10.5" font-weight="700" text-anchor="middle">Bystander</text>
+          <text x="0" y="214" fill="#8aa3bc" font-size="10" text-anchor="middle">out in the open</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption><b>*Unless</b> the flight meets one of the four categories, or you have a waiver.</figcaption>
+    </figure>
+    <div class="trap"><span class="tag">Test trap</span>"OK if the person agrees" or "OK below 100 ft." Neither is a rule. Permission or a low altitude doesn't make a bystander a participant.</div>
+  </section>
+
+  <!-- 02 Categories -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>The four categories<span class="num">02</span></h3>
+    <p><b>The idea:</b> the less a drone could hurt someone, the easier it is to fly over people.</p>
+    <div class="cats">
+      <div><b><i>1</i>Category 1</b>Weighs <span class="pill o">0.55 lb</span> or less, everything on board included, <b>and</b> no exposed spinning parts that could cut skin.</div>
+      <div><b><i>2</i>Category 2</b>Impact no worse than <span class="pill o">11 ft-lb</span> of energy. Must be on an FAA-accepted <b>declaration of compliance</b> and labeled.</div>
+      <div><b><i>3</i>Category 3</b>Impact no worse than <span class="pill o">25 ft-lb</span>. Also declared and labeled, but with <b>extra flight limits</b> (section 04).</div>
+      <div class="c4"><b><i>4</i>Category 4</b>Has an <b>airworthiness certificate</b> under Part 21 and follows its flight manual limits.</div>
+    </div>
+    <p style="margin-top:12px"><b>Lost label?</b> If a Category 2 or 3 label is damaged or missing, the remote pilot must relabel it in English before flying over people.</p>
+    <div class="trap"><span class="tag">Test trap</span>Category 1 isn't weight alone. A 0.5 lb drone with exposed props that could cut skin doesn't qualify.</div>
+  </section>
+
+  <!-- 03 Crowds -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="8" r="2.5"/><circle cx="17" cy="8" r="2.5"/><circle cx="12" cy="6" r="2.5"/><path d="M2 20a5 5 0 0 1 10 0M12 20a5 5 0 0 1 10 0"/></svg></span>Crowds (open-air assemblies)<span class="num">03</span></h3>
+    <div class="memo">
+      <div><b>Cat 1, 2, 4</b><span>sustained flight only with Remote ID</span></div>
+      <div><b>Cat 3</b><span>never over a crowd</span></div>
+      <div><b>Quick pass</b><span>a brief, one-time transit isn't "sustained"</span></div>
+    </div>
+    <p><b>Remote ID compliant</b> means a standard Remote ID drone or one with an FAA broadcast module.</p>
+    <p><b>Brief transit:</b> crossing part of a crowd once, on the way somewhere unrelated, doesn't count as sustained flight over it.</p>
+  </section>
+
+  <!-- 04 Cat 3 limits -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span>Category 3's extra limits<span class="num">04</span></h3>
+    <p>A Category 3 drone may fly over people <b>only if</b> one of these is true:</p>
+    <ul>
+      <li class="ok">It's within or over a <b>closed or restricted-access site</b>, and everyone there is <b>on notice</b> a drone may fly over them.</li>
+      <li class="ok">It doesn't stay in <b>sustained flight</b> over anyone, except people who are participating or protected under cover.</li>
+    </ul>
+    <p><b>Plus:</b> never over open-air assemblies.</p>
+  </section>
+
+  <!-- 05 Moving vehicles + waivers -->
+  <section class="sec">
+    <h3><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16v-4l2-5h11l3 5h2v4z"/><circle cx="7.5" cy="16.5" r="2"/><circle cx="17" cy="16.5" r="2"/></svg></span>Over moving vehicles<span class="num">05</span></h3>
+    <p><b>Not the same as yesterday:</b> Day 3 was flying <i>from</i> a moving vehicle. This is flying <b>over people inside</b> moving cars.</p>
+    <p><b>Categories 1, 2, and 3:</b> allowed only if the drone stays within or over a <b>closed or restricted-access site</b> with everyone in the vehicles on notice, <b>or</b> it doesn't keep <b>sustained flight</b> over moving vehicles.</p>
+    <p><b>Category 4:</b> allowed if its flight manual limits don't prohibit it.</p>
+    <div class="tl">
+      <div class="d"><b><i>&#10003;</i>Waivable</b>Operation over people (§107.39).</div>
+      <div class="t"><b><i>&#10003;</i>Waivable</b>Operation over moving vehicles (§107.145).</div>
+      <div class="n"><b><i>!</i>Remember</b>Sheltered and participating people never need a category.</div>
+    </div>
+  </section>
+
+  <section class="quizbox">
+  <div class="quizhead"><h2>Quiz</h2><span>Tap an answer</span></div>
+  <div id="quiz"></div>
+  <div class="score" id="score">
+    <div class="eyebrow">Your score</div>
+    <div class="big" id="scoreNum">0/3</div>
+    <p id="scoreMsg"></p>
+    <button class="btn" id="retry">Retake quiz</button>
+  </div>
+  </section>
+
+  <footer><a href="index.html">All lessons</a> · Part 107 Trainer · Day 4 of Rules · Oct 22, 2026</footer>
+</div>
+
+<script>
+const LESSON_ID = "2026-10-22";
+const QUESTIONS = [
+  { q:"A small drone weighs 0.5 lb with everything on board, but its exposed propellers could cut skin. Can it fly over people as a Category 1 operation?",
+    opts:["Yes, because it weighs 0.55 lb or less","No, Category 1 also requires no exposed rotating parts that would lacerate skin","Yes, as long as it stays below 100 feet AGL"], a:1,
+    why:"Category 1 needs both: 0.55 lb or less including everything attached, and no exposed rotating parts that would lacerate human skin (§107.110). There's no 100 ft rule." },
+  { q:"Without using any operations-over-people category or a waiver, which person may your drone fly directly over?",
+    opts:["Your visual observer, who is directly participating in the flight","A spectator standing in an open field who says it's fine","A person walking on a sidewalk, if you stay under 400 feet"], a:0,
+    why:"§107.39 allows flight over a person who is directly participating, or who is under a covered structure or inside a stationary vehicle. Permission or altitude doesn't change that." },
+  { q:"You're flying a Category 3 eligible drone. Which of these is prohibited?",
+    opts:["Flying over a closed-access work site where everyone has been told a drone may fly over them","Passing briefly over a person outdoors without sustained flight over them","Flying over a crowd at an outdoor concert"], a:2,
+    why:"Category 3 may never operate over open-air assemblies (§107.125(b)). The closed-site and no-sustained-flight options are both allowed under §107.125(c)." }
+];
+const L = ["a","b","c"];
+let answered = 0, correct = 0;
+
+function render(){
+  answered = 0; correct = 0;
+  const box = document.getElementById("quiz"); box.innerHTML = "";
+  const s = document.getElementById("score"); s.classList.remove("show","perfect");
+  QUESTIONS.forEach((item, qi) => {
+    const el = document.createElement("div"); el.className = "q";
+    el.innerHTML = `<div class="qn">Question ${qi+1} of ${QUESTIONS.length}</div><div class="qt">${item.q}</div>`;
+    const btns = item.opts.map((o, oi) => {
+      const b = document.createElement("button"); b.className = "opt";
+      b.innerHTML = `<span class="k">${L[oi]}</span><span>${o}</span>`;
+      b.onclick = () => choose(item, oi, btns, fb);
+      el.appendChild(b); return b;
+    });
+    const fb = document.createElement("div"); fb.className = "fb"; el.appendChild(fb);
+    box.appendChild(el);
+  });
+  progress();
+}
+function choose(item, oi, btns, fb){
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === item.a) b.classList.add("right");
+    else if (i === oi) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  const ok = oi === item.a;
+  if (ok) correct++;
+  answered++;
+  fb.className = "fb show " + (ok ? "good" : "bad");
+  fb.innerHTML = (ok ? "<b>Correct.</b> " : `<b>Not quite.</b> The correct answer is (${L[item.a]}). `) + item.why;
+  progress();
+  if (answered === QUESTIONS.length) finish();
+}
+function progress(){
+  document.getElementById("progTxt").textContent = `Quiz ${answered}/${QUESTIONS.length}`;
+  document.getElementById("progBar").style.width = (answered/QUESTIONS.length*100) + "%";
+}
+function finish(){
+  const s = document.getElementById("score");
+  document.getElementById("scoreNum").textContent = `${correct}/${QUESTIONS.length}`;
+  document.getElementById("scoreMsg").textContent =
+    correct === QUESTIONS.length ? "Perfect. You know when you can fly over people."
+    : correct >= 2 ? "Nice. Review the one you missed above."
+    : "Worth another pass through the lesson before tomorrow.";
+  s.classList.toggle("perfect", correct === QUESTIONS.length);
+  s.classList.add("show");
+  try{ const k="p107-score-"+LESSON_ID, prev=JSON.parse(localStorage.getItem(k)||"null");
+    if(!prev || correct>prev.c) localStorage.setItem(k, JSON.stringify({c:correct,t:QUESTIONS.length})); }catch(e){}
+  s.scrollIntoView({behavior:"smooth", block:"center"});
+}
+document.getElementById("retry").onclick = () => { render(); document.getElementById("quiz").scrollIntoView({behavior:"smooth"}); };
+render();
+</script>
+</body>
+</html>
